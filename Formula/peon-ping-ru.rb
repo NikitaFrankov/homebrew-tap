@@ -6,6 +6,11 @@ class PeonPingRu < Formula
   license "MIT"
   head "https://github.com/NikitaFrankov/peon-ping-ru.git", branch: "main"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   depends_on "python@3"
 
   def install
@@ -180,6 +185,10 @@ class PeonPingRu < Formula
       echo "Setup complete!"
       echo "Run 'peon status' to check installation."
     EOS
+
+    # Install completions
+    bash_completion.install "completions.bash" => "peon"
+    fish_completion.install "completions.fish" => "peon.fish"
   end
 
   def caveats
@@ -199,5 +208,7 @@ class PeonPingRu < Formula
 
   test do
     assert_match "peon-ping", shell_output("#{bin}/peon status 2>&1 || true")
+    assert_path_exists libexec/"packs/peonRu"
+    assert_path_exists libexec/"packs/peasantRu"
   end
 end
