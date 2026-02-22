@@ -1,8 +1,8 @@
 class PeonPingRu < Formula
   desc "Russian Peon voice pack for Claude Code hooks - AI coding assistant sound effects"
   homepage "https://github.com/NikitaFrankov/peon-ping-ru"
-  url "https://github.com/NikitaFrankov/peon-ping-ru/archive/refs/tags/v2.7.2.tar.gz"
-  sha256 "26b1010c1d063e1c005a4cb1c1a58096f2f61f7feb9278f501dc9c6d9c785919"
+  url "https://github.com/NikitaFrankov/peon-ping-ru/archive/refs/tags/v2.7.3.tar.gz"
+  sha256 "e5d93f11483458baa4ac8bea307be37dafe00147763730869f46cd63278d4324"
   license "MIT"
   head "https://github.com/NikitaFrankov/peon-ping-ru.git", branch: "main"
 
