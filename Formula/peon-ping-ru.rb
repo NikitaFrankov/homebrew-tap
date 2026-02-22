@@ -181,7 +181,7 @@ class PeonPingRu < Formula
         pack=$(echo "$pack" | tr -d ' ')
         if [ -n "$pack" ]; then
           echo "  Downloading $pack..."
-          PACK_URL="https://github.com/NikitaFrankov/peon-ping-ru/releases/download/packs/#{pack}.tar.gz"
+          PACK_URL="https://github.com/NikitaFrankov/peon-ping-ru/releases/download/packs/\${pack}.tar.gz"
           curl -fsSL "$PACK_URL" | tar -xzf - -C "$PACKS_DIR" 2>/dev/null || \
             echo "    Note: Pack $pack may need manual download"
         fi
