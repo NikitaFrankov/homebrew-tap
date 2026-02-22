@@ -70,6 +70,16 @@ class PeonPingRu < Formula
       (libexec/"registry").install Dir["registry/*"]
     end
 
+    # Install sound packs from repo
+    if (buildpath/"packs").exist?
+      (buildpath/"packs").each_child do |pack_dir|
+        next unless pack_dir.directory?
+        pack_name = pack_dir.basename.to_s
+        next if pack_name.start_with?(".")
+        (libexec/"packs"/pack_name).install Dir["#{pack_dir}/*"]
+      end
+    end
+
     # Install icon
     (libexec/"docs").install "docs/peon-icon.png" if (buildpath/"docs/peon-icon.png").exist?
 
@@ -82,29 +92,21 @@ class PeonPingRu < Formula
     # Create setup script
     (bin/"peon-ping-ru-setup").write <<~EOS
       #!/bin/bash
-      # peon-ping-ru setup — auto-detects IDEs and sets up hooks + sound packs
+      # peon-ping-ru setup — links hooks and packs for Claude Code
       set -euo pipefail
 
-      INSTALL_ALL=false
-      CUSTOM_PACKS=""
       for arg in "$@"; do
         case "$arg" in
-          --all) INSTALL_ALL=true ;;
-          --packs=*) CUSTOM_PACKS="${arg#--packs=}" ;;
           --help|-h)
-            echo "Usage: peon-ping-ru-setup [--all] [--packs=pack1,pack2,...]"
+            echo "Usage: peon-ping-ru-setup"
             echo ""
-            echo "Auto-detects installed IDEs and sets up peon-ping-ru."
+            echo "Sets up peon-ping-ru hooks and links sound packs for Claude Code."
             exit 0
             ;;
         esac
       done
 
       LIBEXEC="$(brew --prefix peon-ping-ru)/libexec"
-      REGISTRY_URL="https://raw.githubusercontent.com/NikitaFrankov/peon-ping-ru/main/registry/index.json"
-      PACKS_DIR="$HOME/.openpeon/packs"
-
-      DEFAULT_PACKS="peonRu,peasantRu"
 
       echo "=== peon-ping-ru setup ==="
       echo ""
@@ -162,33 +164,11 @@ class PeonPingRu < Formula
         done
       fi
 
-      # Download sound packs
-      mkdir -p "$PACKS_DIR"
-
-      if [ "$INSTALL_ALL" = true ]; then
-        echo "Downloading all packs..."
-        PACKS_TO_INSTALL=$(curl -fsSL "$REGISTRY_URL" | python3 -c "import json,sys; data=json.load(sys.stdin); print(','.join(p['name'] for p in data.get('packs',[])))")
-      elif [ -n "$CUSTOM_PACKS" ]; then
-        PACKS_TO_INSTALL="$CUSTOM_PACKS"
-      else
-        PACKS_TO_INSTALL="$DEFAULT_PACKS"
+      # Link sound packs from libexec (already installed by brew)
+      if [ -d "$LIBEXEC/packs" ]; then
+        ln -sf "$LIBEXEC/packs" "$HOOKS_DIR/packs"
+        echo "Sound packs linked: $(ls "$LIBEXEC/packs" 2>/dev/null | tr '\\n' ' ')"
       fi
-
-      echo "Installing packs: $PACKS_TO_INSTALL"
-
-      IFS=',' read -ra PACKS <<< "$PACKS_TO_INSTALL"
-      for pack in "${PACKS[@]}"; do
-        pack=$(echo "$pack" | tr -d ' ')
-        if [ -n "$pack" ]; then
-          echo "  Downloading $pack..."
-          PACK_URL="https://github.com/NikitaFrankov/peon-ping-ru/releases/download/packs/\${pack}.tar.gz"
-          curl -fsSL "$PACK_URL" | tar -xzf - -C "$PACKS_DIR" 2>/dev/null || \
-            echo "    Note: Pack $pack may need manual download"
-        fi
-      done
-
-      # Link packs directory
-      ln -sf "$PACKS_DIR" "$HOOKS_DIR/packs" 2>/dev/null || true
 
       # Register hooks in Claude settings
       SETTINGS="$CLAUDE_DIR/settings.json"
