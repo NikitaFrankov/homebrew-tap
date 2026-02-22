@@ -104,7 +104,7 @@ class PeonPingRu < Formula
       REGISTRY_URL="https://raw.githubusercontent.com/NikitaFrankov/peon-ping-ru/main/registry/index.json"
       PACKS_DIR="$HOME/.openpeon/packs"
 
-      DEFAULT_PACKS="peonRu peasantRu"
+      DEFAULT_PACKS="peonRu,peasantRu"
 
       echo "=== peon-ping-ru setup ==="
       echo ""
