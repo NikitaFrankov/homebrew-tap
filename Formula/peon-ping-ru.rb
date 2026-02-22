@@ -20,8 +20,6 @@ class PeonPingRu < Formula
     libexec.install "VERSION"
     libexec.install "uninstall.sh"
     libexec.install "install.sh"
-    libexec.install "completions.bash"
-    libexec.install "completions.fish"
 
     # Install relay server (devcontainer audio support)
     libexec.install "relay.sh" if (buildpath/"relay.sh").exist?
