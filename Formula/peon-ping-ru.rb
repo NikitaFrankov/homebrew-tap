@@ -184,14 +184,10 @@ class PeonPingRu < Formula
 
   def caveats
     <<~EOS
-      peon-ping-ru installed!
+      peon-ping-ru installed with Russian sound packs!
 
-      To set up hooks for Claude Code:
+      Run this to set up hooks for Claude Code:
         peon-ping-ru-setup
-
-      Or manually:
-        mkdir -p ~/.claude/hooks/peon-ping
-        ln -s #{libexec}/* ~/.claude/hooks/peon-ping/
 
       Commands:
         peon status      - Show current status
