@@ -167,6 +167,14 @@ class PeonPingRu < Formula
         done
       fi
 
+      # Link docs (icon for notifications)
+      mkdir -p "$HOOKS_DIR/docs"
+      if [ -d "$LIBEXEC/docs" ]; then
+        for f in "$LIBEXEC/docs"/*; do
+          ln -sf "$f" "$HOOKS_DIR/docs/$(basename "$f")"
+        done
+      fi
+
       # Link sound packs from libexec (already installed by brew)
       if [ -d "$LIBEXEC/packs" ]; then
         ln -sf "$LIBEXEC/packs" "$HOOKS_DIR/packs"
