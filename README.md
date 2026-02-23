@@ -7,8 +7,12 @@ Homebrew tap for [peon-ping-ru](https://github.com/NikitaFrankov/peon-ping-ru) �
 **Шаг 1: Установка через Homebrew**
 
 ```bash
+# Вариант A: Двумя командами
 brew tap NikitaFrankov/tap
 brew install peon-ping-ru
+
+# Вариант B: Одной командой
+brew install NikitaFrankov/tap/peon-ping-ru
 ```
 
 **Шаг 2: Настройка хуков (ОБЯЗАТЕЛЬНО)**
