@@ -4,16 +4,28 @@ Homebrew tap for [peon-ping-ru](https://github.com/NikitaFrankov/peon-ping-ru) �
 
 ## Installation
 
+**Шаг 1: Установка через Homebrew**
+
 ```bash
-# Add the tap
 brew tap NikitaFrankov/tap
-
-# Install peon-ping-ru
 brew install peon-ping-ru
+```
 
-# Run setup to configure hooks
+**Шаг 2: Настройка хуков (ОБЯЗАТЕЛЬНО)**
+
+После установки нужно запустить setup, чтобы создать ссылки в директории Claude:
+
+```bash
 peon-ping-ru-setup
 ```
+
+**Проверка:**
+
+```bash
+peon status
+```
+
+Должно показать: `peon-ping: active`
 
 ## What is peon-ping-ru?
 
